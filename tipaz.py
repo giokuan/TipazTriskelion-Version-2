@@ -10,13 +10,8 @@ class Ui_MainWindow(object):
 
     def browse_image(self):
         filename = QFileDialog.getOpenFileName( caption = "Open file", directory=None, \
-                                                            filter="Image (*.png * .jpg);;All Files(*.*)")   # filter="Image Files(*.png *.jpg )") 
-        #file_name = QFileDialog.getOpenFileName(self, 'Open File', 'c\\', 'Image files (*.jpg *.png)')
-        #imagepath = fileName[0]
-        #pixmap = QtGui.Qpixmap(imagepath)
-        #self.pic_label.setPixmap(QtGui.QPixmap(imagepath))
+                                                            filter="Image (*.png * .jpg);;All Files(*.*)")   
         self.addPic_edit.setText(filename[0])
-        #self.addPic_btn.clicked.connect(self.load_image)
         self.load_image()
 
 
@@ -46,6 +41,31 @@ class Ui_MainWindow(object):
     def load_image(self):
         p = self.addPic_edit.text()
         self.pic_label.setPixmap(QtGui.QPixmap(p))
+
+    def search(self):    
+        row = 0
+        try: 
+            mydb = mc.connect(
+                host = "localhost",
+                user = "root",
+                password= "noahkuan03",
+                database = "myproject"
+            )
+            mycursor = mydb.cursor()
+            se = self.search_edit.text()
+            mycursor.execute("SELECT * FROM projecttau WHERE last_name = '"+se+"'" );
+            result = mycursor.fetchall()
+          
+            self.tableWidget.setRowCount(0)
+           
+            for row_number, row_data in enumerate(result):
+                self.tableWidget.insertRow(row_number)
+
+                for column_number, data in enumerate(row_data):
+                    self.tableWidget.setItem(row_number, column_number, QTableWidgetItem(str(data)))
+                  
+        except mc.Error as e:
+            print ("Error Occured")
 
     def insert_data(self):
         
@@ -167,6 +187,7 @@ class Ui_MainWindow(object):
                 self.messageBox("Updated", " Member Data Updated")
                 self.conn.commit()
                 self.loadData()
+                self.cancel()
               
 
     def add_new_button(self):
@@ -179,8 +200,6 @@ class Ui_MainWindow(object):
         self.aka_edit.setEnabled(True)
         self.root_edit.setEnabled(True)
         self.tbirth_edit.setEnabled(True)
-        #self.addbuttom.setEnabled(False)
-        #self.clear.setEnabled(True)
         self.save_btn.setEnabled(True)
         self.aka_edit.setStyleSheet("background-color: rgb(255, 195, 44);color: blue")
         self.current_edit.setStyleSheet("background-color: rgb(255, 195, 44);color: blue")
@@ -199,6 +218,7 @@ class Ui_MainWindow(object):
         self.add_btn.setEnabled(False)
         self.save_btn.show()
         self.update_btn.hide()
+        self.addPic_btn.setEnabled(True)
 
 
     def cancel(self):
@@ -211,9 +231,7 @@ class Ui_MainWindow(object):
         self.aka_edit.setEnabled(False)
         self.root_edit.setEnabled(False)
         self.tbirth_edit.setEnabled(False)
-        #self.addbuttom.setEnabled(False)
-        #self.clear.setEnabled(True)
-        #self.save_btn.setEnabled(True)
+       
         self.aka_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.current_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.root_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
@@ -229,6 +247,9 @@ class Ui_MainWindow(object):
         self.update_btn.hide()
         self.save_btn.show()
         self.save_btn.setEnabled(False)
+        self.addPic_btn.setEnabled(False)
+        self.refresh_btn.setEnabled(True)
+        self.edit_btn.setEnabled(True)
 
     def clearfield(self):    
         self.lname_edit.clear()
@@ -242,8 +263,9 @@ class Ui_MainWindow(object):
         self.root_edit.clear()
         self.tbirth_edit.clear()
         self.id_edit.clear()
-        self.addPic_edit.setText("Men.png")
-        self.pic_label.setPixmap(QtGui.QPixmap("Men.png"))
+        self.search_edit.clear()
+        self.addPic_edit.setText("photo/Men.png")
+        self.pic_label.setPixmap(QtGui.QPixmap("photo/Men.png"))
         #self.editbutton.setEnabled(False)
 
     def edit(self):
@@ -260,9 +282,6 @@ class Ui_MainWindow(object):
         self.aka_edit.setEnabled(True)
         self.root_edit.setEnabled(True)
         self.tbirth_edit.setEnabled(True)
-        #self.addbuttom.setEnabled(False)
-        #self.clear.setEnabled(True)
-        #saveself.save_btn.setEnabled(True)
         self.aka_edit.setStyleSheet("background-color: rgb(255, 195, 44);color: blue")
         self.current_edit.setStyleSheet("background-color: rgb(255, 195, 44);color: blue")
         self.root_edit.setStyleSheet("background-color: rgb(255, 195, 44);color: blue")
@@ -275,6 +294,9 @@ class Ui_MainWindow(object):
         self.save_btn.hide()
         self.update_btn.show()
         self.cancel_btn.setEnabled(True)
+        self.addPic_btn.setEnabled(True)
+        self.refresh_btn.setEnabled(False)
+        self.edit_btn.setEnabled(False)
 
     def cell_click(self,columnCount,rowCount):
         
@@ -397,7 +419,7 @@ class Ui_MainWindow(object):
         
         #TABLE WIDGET
         self.tableWidget = QtWidgets.QTableWidget(self.form_frame)
-        self.tableWidget.setGeometry(QtCore.QRect(25, 20, 1103, 251))
+        self.tableWidget.setGeometry(QtCore.QRect(18, 20, 1120, 251))
         self.tableWidget.setStyleSheet("background-color: rgb(185, 185, 185);")
         self.tableWidget.setColumnCount(11)
         self.tableWidget.setObjectName("tableWidget")
@@ -440,19 +462,8 @@ class Ui_MainWindow(object):
         self.addPic_btn.setObjectName("addPic_btn")
         #self.addPic_btn.clicked.connect(self.load_image)
         self.addPic_btn.clicked.connect(self.browse_image)
-        #self.addPic_btn.hide()
+        self.addPic_btn.setEnabled(False)
 
-        #ADD PICTURE
-        #self.addpicture_btn = QtWidgets.QPushButton(self.form_frame)
-        #self.addpicture_btn.setGeometry(QtCore.QRect(20, 280, 181, 21))
-        #font = QtGui.QFont()
-        #font.setBold(True)
-        #font.setWeight(75)
-        #self.addpicture_btn.setFont(font)
-        #self.addpicture_btn.setStyleSheet("background-color: rgb(185, 185, 185);")
-        #self.addpicture_btn.setObjectName("addPic_btn")
-        #self.addPic_btn.clicked.connect(self.load_image)
-        #
        
         
         #SEARCH BUTTON
@@ -464,6 +475,7 @@ class Ui_MainWindow(object):
         self.search_button.setFont(font)
         self.search_button.setStyleSheet("background-color: rgb(185, 185, 185);")
         self.search_button.setObjectName("search_button")
+        self.search_button.clicked.connect(self.search)
 
         #ADD NEW BUTTON
         self.add_btn = QtWidgets.QPushButton(self.form_frame)
@@ -547,6 +559,8 @@ class Ui_MainWindow(object):
         self.exit_btn.setStyleSheet("background-color: rgb(185, 185, 185);")
         self.exit_btn.setObjectName("exit_btn")
         self.exit_btn.clicked.connect(self.popup)
+        #self.exit_btn:hover(background-color: 4CAF50; color: white;}
+        #self.exit_btn.setStyleSheet("QPushButton::hover" "{background-color : white;}")
 
         #ADD PICTURE EDIT TEXTBOX
         self.addPic_edit = QtWidgets.QLineEdit(self.form_frame)
@@ -648,7 +662,7 @@ class Ui_MainWindow(object):
         self.pic_label.setText("")
         self.pic_label.setObjectName("pic_label")
         self.pic_label.setScaledContents(True)
-        self.pic_label.setPixmap(QtGui.QPixmap("Men.png"))
+        self.pic_label.setPixmap(QtGui.QPixmap("photo/Men.png"))
 
 
 
@@ -722,7 +736,7 @@ class Ui_MainWindow(object):
         
         #FRAME OF 3 AND 3 TECH LOGO
         self.frame = QtWidgets.QFrame(self.form_frame)
-        self.frame.setGeometry(QtCore.QRect(920, 590, 181, 71))
+        self.frame.setGeometry(QtCore.QRect(930, 590, 161, 71))
         self.frame.setStyleSheet("background-color: rgb(185, 185, 185);")
         self.frame.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -731,7 +745,7 @@ class Ui_MainWindow(object):
         
         # 3 AND 3 TECH LOGO
         self.threeand3_label = QtWidgets.QLabel(self.frame)
-        self.threeand3_label.setGeometry(QtCore.QRect(0, 0, 181, 71))
+        self.threeand3_label.setGeometry(QtCore.QRect(0, 0, 171, 71))
         self.threeand3_label.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.threeand3_label.setLineWidth(2)
         self.threeand3_label.setText("")
