@@ -192,8 +192,14 @@ class Ui_MainWindow(object):
         self.status_edit.setStyleSheet("background-color: rgb(255, 195, 44);color: blue")
         self.address_edit.setStyleSheet("background-color: rgb(255, 195, 44);color: blue")
         self.clearfield()
-        self.addPic_edit.setText("Men.png")
-        self.pic_label.setPixmap(QtGui.QPixmap("Men.png"))
+        self.addPic_edit.setText("photo/Men.png")
+        self.pic_label.setPixmap(QtGui.QPixmap("photo/Men.png"))
+        #self.save_btn.setEnabled(True)
+        self.cancel_btn.setEnabled(True)
+        self.add_btn.setEnabled(False)
+        self.save_btn.show()
+        self.update_btn.hide()
+
 
     def cancel(self):
         self.lname_edit.setEnabled(False)
@@ -217,6 +223,12 @@ class Ui_MainWindow(object):
         self.tbirth_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.status_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.address_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
+        
+        self.cancel_btn.setEnabled(False)
+        self.add_btn.setEnabled(True)
+        self.update_btn.hide()
+        self.save_btn.show()
+        self.save_btn.setEnabled(False)
 
     def clearfield(self):    
         self.lname_edit.clear()
@@ -230,6 +242,8 @@ class Ui_MainWindow(object):
         self.root_edit.clear()
         self.tbirth_edit.clear()
         self.id_edit.clear()
+        self.addPic_edit.setText("Men.png")
+        self.pic_label.setPixmap(QtGui.QPixmap("Men.png"))
         #self.editbutton.setEnabled(False)
 
     def edit(self):
@@ -260,6 +274,7 @@ class Ui_MainWindow(object):
         self.address_edit.setStyleSheet("background-color: rgb(255, 195, 44);color: blue")
         self.save_btn.hide()
         self.update_btn.show()
+        self.cancel_btn.setEnabled(True)
 
     def cell_click(self,columnCount,rowCount):
         
@@ -286,6 +301,8 @@ class Ui_MainWindow(object):
             add = col[9]
             pic = col[10]
 
+
+
         self.id_edit.setText(i)
         self.lname_edit.setText(lname)
         self.fname_edit.setText(fname)
@@ -299,6 +316,7 @@ class Ui_MainWindow(object):
 
         with open('photo/pic.png', 'wb') as f:
                 f.write(pic)
+                self.addPic_edit.setText('photo/pic.png')
                 self.pic_label.setPixmap(QtGui.QPixmap("photo/pic.png"))
     
     def loadData(self):
@@ -364,7 +382,7 @@ class Ui_MainWindow(object):
         self.logo_label.setFont(font)
         self.logo_label.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.logo_label.setText("")
-        self.logo_label.setPixmap(QtGui.QPixmap("tipaz.png"))
+        self.logo_label.setPixmap(QtGui.QPixmap("photo/tipaz.png"))
         self.logo_label.setScaledContents(True)
         self.logo_label.setObjectName("logo_label")
         
@@ -468,6 +486,7 @@ class Ui_MainWindow(object):
         self.save_btn.setStyleSheet("background-color: rgb(185, 185, 185);")
         self.save_btn.setObjectName("save_btn")
         self.save_btn.clicked.connect(self.insert_data)
+        self.save_btn.setEnabled(False)
 
         #UPDATE BUTTON
         self.update_btn = QtWidgets.QPushButton(self.form_frame)
@@ -491,6 +510,7 @@ class Ui_MainWindow(object):
         self.cancel_btn.setStyleSheet("background-color: rgb(185, 185, 185);")
         self.cancel_btn.setObjectName("cancel_btn")
         self.cancel_btn.clicked.connect(self.cancel)
+        self.cancel_btn.setEnabled(False)
         
         #EDIT BUTTON
         self.edit_btn = QtWidgets.QPushButton(self.form_frame)
@@ -512,6 +532,10 @@ class Ui_MainWindow(object):
         self.refresh_btn.setFont(font)
         self.refresh_btn.setStyleSheet("background-color: rgb(185, 185, 185);")
         self.refresh_btn.setObjectName("refresh_btn")
+        self.refresh_btn.clicked.connect(self.loadData)
+        self.refresh_btn.clicked.connect(self.clearfield)
+        self.refresh_btn.clicked.connect(lambda: self.addPic_edit.setText("photo/Men.png"))
+        self.refresh_btn.clicked.connect(lambda:self.pic_label.setPixmap(QtGui.QPixmap("photo/Men.png")))
         
         #EXIT BUTTON
         self.exit_btn = QtWidgets.QPushButton(self.form_frame)
@@ -530,7 +554,7 @@ class Ui_MainWindow(object):
         self.addPic_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.addPic_edit.setCursorPosition(0)
         self.addPic_edit.setObjectName("addPic_edit")
-        self.addPic_edit.setText("Men.png")
+        self.addPic_edit.setText("photo/Men.png")
         self.addPic_edit.hide()
 
 
@@ -692,7 +716,7 @@ class Ui_MainWindow(object):
         self.bigLogo_label = QtWidgets.QLabel(self.form_frame)
         self.bigLogo_label.setGeometry(QtCore.QRect(890, 350, 231, 231))
         self.bigLogo_label.setText("")
-        self.bigLogo_label.setPixmap(QtGui.QPixmap("tipaz.png"))
+        self.bigLogo_label.setPixmap(QtGui.QPixmap("photo/tipaz.png"))
         self.bigLogo_label.setScaledContents(True)
         self.bigLogo_label.setObjectName("bigLogo_label")
         
@@ -711,7 +735,7 @@ class Ui_MainWindow(object):
         self.threeand3_label.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.threeand3_label.setLineWidth(2)
         self.threeand3_label.setText("")
-        self.threeand3_label.setPixmap(QtGui.QPixmap("and3.png"))
+        self.threeand3_label.setPixmap(QtGui.QPixmap("photo/and3.png"))
         self.threeand3_label.setScaledContents(True)
         self.threeand3_label.setObjectName("threeand3_label")
         
