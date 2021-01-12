@@ -4,6 +4,7 @@ import pymysql
 from PyQt5.QtWidgets import QTableWidgetItem, QAbstractItemView, QVBoxLayout, QHBoxLayout, QHeaderView,QTableWidget
 from PyQt5.QtWidgets import QLineEdit
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, QFileDialog
+import sys
 
 
 class Ui_MainWindow(object):
@@ -14,10 +15,9 @@ class Ui_MainWindow(object):
         self.addPic_edit.setText(filename[0])
         self.load_image()
 
-
     def popup(self):
         msg=QMessageBox() 
-        msg.setWindowIcon(QtGui.QIcon('barmm.ico'))
+        msg.setWindowIcon(QtGui.QIcon('photo/tipaz.ico'))
         msg.setWindowTitle("Exit")
         msg.setText("Are you sure you wan't to Exit?")
         msg.setIcon(QMessageBox.Question)
@@ -32,6 +32,7 @@ class Ui_MainWindow(object):
 
     def messageBox(self,title,message):
         mess=QtWidgets.QMessageBox()
+        mess.setWindowIcon(QtGui.QIcon('photo/tipaz.ico'))
         mess.setWindowTitle(title)
         mess.setText(message)
         mess.setIcon(QMessageBox.Information)
@@ -126,6 +127,10 @@ class Ui_MainWindow(object):
                 self.messageBox("Saved", " Member Data Saved")
                 self.conn.commit()
                 self.loadData()
+                self.cancel()
+                #self.add_btn.setEnabled(True)
+                #self.save_btn.setEnabled(False)
+                #self.cancel_btn.setEnabled(False)
 
     def update(self):
         
@@ -219,6 +224,7 @@ class Ui_MainWindow(object):
         self.save_btn.show()
         self.update_btn.hide()
         self.addPic_btn.setEnabled(True)
+        self.edit_btn.setEnabled(False)
 
 
     def cancel(self):
@@ -369,8 +375,12 @@ class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.setWindowFlags( QtCore.Qt.CustomizeWindowHint )
-        MainWindow.resize(1191, 822)
+        #MainWindow.setWindowFlags( QtCore.Qt.CustomizeWindowHint )
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("photo/tipaz.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainWindow.setWindowFlags( QtCore.Qt.WindowCloseButtonHint )
+        MainWindow.setWindowIcon(icon)
+        MainWindow.resize(1098, 822)
         MainWindow.setStyleSheet("background-color: rgb(59, 59, 59);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -398,7 +408,7 @@ class Ui_MainWindow(object):
         
         #SMALL LOGO HEADER
         self.logo_label = QtWidgets.QLabel(self.header_frame)
-        self.logo_label.setGeometry(QtCore.QRect(80, 0, 91, 91))
+        self.logo_label.setGeometry(QtCore.QRect(70, 0, 91, 91))
         font = QtGui.QFont()
         font.setPointSize(4)
         self.logo_label.setFont(font)
@@ -410,7 +420,7 @@ class Ui_MainWindow(object):
         
         #FORM FRAME
         self.form_frame = QtWidgets.QFrame(self.centralwidget)
-        self.form_frame.setGeometry(QtCore.QRect(20, 110, 1151, 701))
+        self.form_frame.setGeometry(QtCore.QRect(20, 110, 1058, 701))
         self.form_frame.setMinimumSize(QtCore.QSize(2, 2))
         self.form_frame.setStyleSheet("background-color: rgb(5, 1, 96);")
         self.form_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -419,9 +429,9 @@ class Ui_MainWindow(object):
         
         #TABLE WIDGET
         self.tableWidget = QtWidgets.QTableWidget(self.form_frame)
-        self.tableWidget.setGeometry(QtCore.QRect(18, 20, 1120, 251))
+        self.tableWidget.setGeometry(QtCore.QRect(18, 20, 1020, 251))
         self.tableWidget.setStyleSheet("background-color: rgb(185, 185, 185);")
-        self.tableWidget.setColumnCount(11)
+        self.tableWidget.setColumnCount(10)
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tableWidget.setRowCount(0)
@@ -445,8 +455,10 @@ class Ui_MainWindow(object):
         self.tableWidget.setHorizontalHeaderItem(8, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(9, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(10, item)
+        
+        #item = QtWidgets.QTableWidgetItem()
+        #self.tableWidget.setHorizontalHeaderItem(10, item)
+
         self.tableWidget.cellClicked.connect(self.cell_click)
         self.tableWidget.verticalHeader().setVisible(False)
         self.loadData()
@@ -728,7 +740,7 @@ class Ui_MainWindow(object):
         
         #BIG TIPAZ LOGO LABEL
         self.bigLogo_label = QtWidgets.QLabel(self.form_frame)
-        self.bigLogo_label.setGeometry(QtCore.QRect(890, 350, 231, 231))
+        self.bigLogo_label.setGeometry(QtCore.QRect(872, 370, 171, 171))
         self.bigLogo_label.setText("")
         self.bigLogo_label.setPixmap(QtGui.QPixmap("photo/tipaz.png"))
         self.bigLogo_label.setScaledContents(True)
@@ -736,7 +748,7 @@ class Ui_MainWindow(object):
         
         #FRAME OF 3 AND 3 TECH LOGO
         self.frame = QtWidgets.QFrame(self.form_frame)
-        self.frame.setGeometry(QtCore.QRect(930, 590, 161, 71))
+        self.frame.setGeometry(QtCore.QRect(880, 590, 161, 71))
         self.frame.setStyleSheet("background-color: rgb(185, 185, 185);")
         self.frame.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -763,7 +775,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "TIPAZ TRISKELION CHAPTER"))
         self.title_label.setText(_translate("MainWindow", "TIPAZ TRISKELION CHAPTER"))
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Member ID"))
@@ -785,8 +797,10 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Status"))
         item = self.tableWidget.horizontalHeaderItem(9)
         item.setText(_translate("MainWindow", "Address"))
-        item = self.tableWidget.horizontalHeaderItem(10)
-        item.setText(_translate("MainWindow", "Photo"))
+        
+        #item = self.tableWidget.horizontalHeaderItem(10)
+        #item.setText(_translate("MainWindow", "Photo"))
+        
         self.add_btn.setText(_translate("MainWindow", "ADD NEW"))
         self.addPic_btn.setText(_translate("MainWindow", "ADD PHOTO"))
         self.save_btn.setText(_translate("MainWindow", "SAVE"))
@@ -806,7 +820,7 @@ class Ui_MainWindow(object):
         self.current_label.setText(_translate("MainWindow", "Current Chapter"))
         self.root_label.setText(_translate("MainWindow", "Root Chapter"))
         self.status_label.setText(_translate("MainWindow", "Status"))
-        #self.addPic_edit.setPlaceholderText(_translate("MainWindow", "Men.png"))
+        self.tbirth_edit.setPlaceholderText(_translate("MainWindow", "MM/DD/YYYY"))
 
 
 if __name__ == "__main__":
