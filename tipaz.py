@@ -226,6 +226,7 @@ class Ui_MainWindow(object):
         self.update_btn.hide()
         self.addPic_btn.setEnabled(True)
         self.edit_btn.setEnabled(False)
+        self.refresh_btn.setEnabled(False)
 
 
     def cancel(self):
@@ -257,6 +258,7 @@ class Ui_MainWindow(object):
         self.addPic_btn.setEnabled(False)
         self.refresh_btn.setEnabled(True)
         self.edit_btn.setEnabled(True)
+        self.clearfield()
 
     def clearfield(self):    
         self.lname_edit.clear()
@@ -882,6 +884,16 @@ class Ui_MainWindow(object):
         self.status_label.setText(_translate("MainWindow", "Status"))
         self.tbirth_edit.setPlaceholderText(_translate("MainWindow", "MM/DD/YYYY"))
 
+        
+        
+        MainWindow.setTabOrder(self.lname_edit, self.fname_edit)
+        MainWindow.setTabOrder(self.fname_edit, self.aka_edit)
+        MainWindow.setTabOrder(self.aka_edit, self.batch_edit)
+        MainWindow.setTabOrder(self.batch_edit, self.tbirth_edit)
+        MainWindow.setTabOrder(self.tbirth_edit, self.current_edit)
+        MainWindow.setTabOrder(self.current_edit, self.root_edit)
+        MainWindow.setTabOrder(self.root_edit, self.status_edit)
+        MainWindow.setTabOrder(self.status_edit, self.address_edit)
 
 if __name__ == "__main__":
     import sys
