@@ -16,6 +16,7 @@ class Ui_MainWindow(object):
         self.load_image()
 
     def popup(self):
+        
         msg=QMessageBox() 
         msg.setWindowIcon(QtGui.QIcon('photo/tipaz.ico'))
         msg.setWindowTitle("Exit")
@@ -475,6 +476,10 @@ class Ui_MainWindow(object):
         #self.addPic_btn.clicked.connect(self.load_image)
         self.addPic_btn.clicked.connect(self.browse_image)
         self.addPic_btn.setEnabled(False)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("photo/camera.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.addPic_btn.setIcon(icon1)
+        
 
        
         
@@ -488,6 +493,10 @@ class Ui_MainWindow(object):
         self.search_button.setStyleSheet("background-color: rgb(185, 185, 185);")
         self.search_button.setObjectName("search_button")
         self.search_button.clicked.connect(self.search)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("photo/search.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.search_button.setIcon(icon)
+        
 
         #ADD NEW BUTTON
         self.add_btn = QtWidgets.QPushButton(self.form_frame)
@@ -499,6 +508,9 @@ class Ui_MainWindow(object):
         self.add_btn.setStyleSheet("background-color: rgb(185, 185, 185);")
         self.add_btn.setObjectName("add_btn")
         self.add_btn.clicked.connect(self.add_new_button)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("photo/add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.add_btn.setIcon(icon1)
         
         #SAVE BUTTON
         self.save_btn = QtWidgets.QPushButton(self.form_frame)
@@ -511,6 +523,10 @@ class Ui_MainWindow(object):
         self.save_btn.setObjectName("save_btn")
         self.save_btn.clicked.connect(self.insert_data)
         self.save_btn.setEnabled(False)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("photo/save.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.save_btn.setIcon(icon)
+        
 
         #UPDATE BUTTON
         self.update_btn = QtWidgets.QPushButton(self.form_frame)
@@ -535,6 +551,9 @@ class Ui_MainWindow(object):
         self.cancel_btn.setObjectName("cancel_btn")
         self.cancel_btn.clicked.connect(self.cancel)
         self.cancel_btn.setEnabled(False)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("photo/cancel.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.cancel_btn.setIcon(icon)
         
         #EDIT BUTTON
         self.edit_btn = QtWidgets.QPushButton(self.form_frame)
@@ -546,6 +565,9 @@ class Ui_MainWindow(object):
         self.edit_btn.setStyleSheet("background-color: rgb(185, 185, 185);")
         self.edit_btn.setObjectName("edit_btn")
         self.edit_btn.clicked.connect(self.edit)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("photo/edit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.edit_btn.setIcon(icon)
         
         #REFRESH BUTTON
         self.refresh_btn = QtWidgets.QPushButton(self.form_frame)
@@ -560,6 +582,9 @@ class Ui_MainWindow(object):
         self.refresh_btn.clicked.connect(self.clearfield)
         self.refresh_btn.clicked.connect(lambda: self.addPic_edit.setText("photo/Men.png"))
         self.refresh_btn.clicked.connect(lambda:self.pic_label.setPixmap(QtGui.QPixmap("photo/Men.png")))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("photo/refresh.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.refresh_btn.setIcon(icon)
         
         #EXIT BUTTON
         self.exit_btn = QtWidgets.QPushButton(self.form_frame)
@@ -571,8 +596,10 @@ class Ui_MainWindow(object):
         self.exit_btn.setStyleSheet("background-color: rgb(185, 185, 185);")
         self.exit_btn.setObjectName("exit_btn")
         self.exit_btn.clicked.connect(self.popup)
-        #self.exit_btn:hover(background-color: 4CAF50; color: white;}
-        #self.exit_btn.setStyleSheet("QPushButton::hover" "{background-color : white;}")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("photo/exit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.exit_btn.setIcon(icon)
+        
 
         #ADD PICTURE EDIT TEXTBOX
         self.addPic_edit = QtWidgets.QLineEdit(self.form_frame)
@@ -591,6 +618,9 @@ class Ui_MainWindow(object):
         self.id_edit.setCursorPosition(0)
         self.id_edit.setObjectName("id_edit")
         self.id_edit.setEnabled(False)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.id_edit.setFont(font)
         
         #AKA EDIT TEXTBOX
         self.aka_edit = QtWidgets.QLineEdit(self.form_frame)
@@ -598,6 +628,9 @@ class Ui_MainWindow(object):
         self.aka_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.aka_edit.setObjectName("aka_edit")
         self.aka_edit.setEnabled(False)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.aka_edit.setFont(font)
         
         #CURRENT CHAPTER EDIT TEXTBOX
         self.current_edit = QtWidgets.QLineEdit(self.form_frame)
@@ -606,6 +639,9 @@ class Ui_MainWindow(object):
         self.current_edit.setCursorPosition(0)
         self.current_edit.setObjectName("current_edit")
         self.current_edit.setEnabled(False)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.current_edit.setFont(font)
         
         #ROOT CHAPTER EDIT TEXTBOX
         self.root_edit = QtWidgets.QLineEdit(self.form_frame)
@@ -613,6 +649,9 @@ class Ui_MainWindow(object):
         self.root_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.root_edit.setObjectName("root_edit")
         self.root_edit.setEnabled(False)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.root_edit.setFont(font)
         
         #LAST NAME EDIT TEXTBOX
         self.lname_edit = QtWidgets.QLineEdit(self.form_frame)
@@ -620,6 +659,9 @@ class Ui_MainWindow(object):
         self.lname_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.lname_edit.setObjectName("lname_edit")
         self.lname_edit.setEnabled(False)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.lname_edit.setFont(font)
         
         #BATCH NAME EDIT TEXTBOX
         self.batch_edit = QtWidgets.QLineEdit(self.form_frame)
@@ -627,6 +669,9 @@ class Ui_MainWindow(object):
         self.batch_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.batch_edit.setObjectName("batch_edit")
         self.batch_edit.setEnabled(False)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.batch_edit.setFont(font)
         
         #FIRST NAME EDIT TEXTBOX
         self.fname_edit = QtWidgets.QLineEdit(self.form_frame)
@@ -634,6 +679,9 @@ class Ui_MainWindow(object):
         self.fname_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.fname_edit.setObjectName("fname_edit")
         self.fname_edit.setEnabled(False)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.fname_edit.setFont(font)
         
         #T-BIRTH TEXTBOX
         self.tbirth_edit = QtWidgets.QLineEdit(self.form_frame)
@@ -641,6 +689,9 @@ class Ui_MainWindow(object):
         self.tbirth_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.tbirth_edit.setObjectName("tbirth_edit")
         self.tbirth_edit.setEnabled(False)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.tbirth_edit.setFont(font)
         
         #STATUS EDIT TEXTBOX
         self.status_edit = QtWidgets.QLineEdit(self.form_frame)
@@ -648,6 +699,9 @@ class Ui_MainWindow(object):
         self.status_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.status_edit.setObjectName("status_edit")
         self.status_edit.setEnabled(False)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.status_edit.setFont(font)
         
         #ADDRESS EDIT TEXTBOX
         self.address_edit = QtWidgets.QLineEdit(self.form_frame)
@@ -655,6 +709,9 @@ class Ui_MainWindow(object):
         self.address_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.address_edit.setObjectName("address_edit")
         self.address_edit.setEnabled(False)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.address_edit.setFont(font)
     
         #SEARCH EDIT TEXTBOX
         self.search_edit = QtWidgets.QLineEdit(self.form_frame)
@@ -663,6 +720,9 @@ class Ui_MainWindow(object):
         self.search_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.search_edit.setCursorPosition(0)
         self.search_edit.setObjectName("search_edit")
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.search_edit.setFont(font)
 
         #PICTURE OF BROD LABEL
         self.pic_label = QtWidgets.QLabel(self.form_frame)
@@ -749,19 +809,19 @@ class Ui_MainWindow(object):
         #FRAME OF 3 AND 3 TECH LOGO
         self.frame = QtWidgets.QFrame(self.form_frame)
         self.frame.setGeometry(QtCore.QRect(880, 590, 161, 71))
-        self.frame.setStyleSheet("background-color: rgb(185, 185, 185);")
-        self.frame.setFrameShape(QtWidgets.QFrame.WinPanel)
-        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame.setMidLineWidth(3)
+        #self.frame.setStyleSheet("background-color: rgb(185, 185, 185);")
+        #self.frame.setFrameShape(QtWidgets.QFrame.WinPanel)
+        #self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        #self.frame.setMidLineWidth(3)
         self.frame.setObjectName("frame")
         
         # 3 AND 3 TECH LOGO
         self.threeand3_label = QtWidgets.QLabel(self.frame)
         self.threeand3_label.setGeometry(QtCore.QRect(0, 0, 171, 71))
-        self.threeand3_label.setFrameShape(QtWidgets.QFrame.WinPanel)
+        #self.threeand3_label.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.threeand3_label.setLineWidth(2)
         self.threeand3_label.setText("")
-        self.threeand3_label.setPixmap(QtGui.QPixmap("photo/and3.png"))
+        self.threeand3_label.setPixmap(QtGui.QPixmap("photo/and4.png"))
         self.threeand3_label.setScaledContents(True)
         self.threeand3_label.setObjectName("threeand3_label")
         

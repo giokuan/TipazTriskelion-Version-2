@@ -24,7 +24,7 @@ class Ui_Mainform(object):
     def messageBox(self,title,message):
         mess=QtWidgets.QMessageBox()
         mess.setWindowTitle(title)
-        mess.setWindowIcon(QtGui.QIcon('barmm.ico'))
+        mess.setWindowIcon(QtGui.QIcon('photo/tipaz.ico'))
         mess.setText(message)
         mess.setIcon(QMessageBox.Information)
         mess.setStandardButtons(QtWidgets.QMessageBox.Ok)
@@ -48,6 +48,7 @@ class Ui_Mainform(object):
 
     def setupUi(self, Mainform):
         Mainform.setObjectName("Mainform")
+        Mainform.setWindowFlags( QtCore.Qt.CustomizeWindowHint )
         Mainform.resize(559, 515)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("photo/tipaz.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
