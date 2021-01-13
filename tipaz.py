@@ -309,7 +309,6 @@ class Ui_MainWindow(object):
 
     def cell_click(self,columnCount,rowCount):
         
-        #self.editbutton.setEnabled(True)
         self.conn=pymysql.connect(host="localhost", user="root", password="noahkuan03", db="myproject")
         cur=self.conn.cursor()
         item = self.tableWidget.selectedItems()
@@ -738,8 +737,6 @@ class Ui_MainWindow(object):
         self.pic_label.setScaledContents(True)
         self.pic_label.setPixmap(QtGui.QPixmap("photo/Men.png"))
 
-
-
         #MEMBER ID LABEL
         self.id_label = QtWidgets.QLabel(self.form_frame)
         self.id_label.setGeometry(QtCore.QRect(210, 350, 71, 16))
@@ -811,16 +808,11 @@ class Ui_MainWindow(object):
         #FRAME OF 3 AND 3 TECH LOGO
         self.frame = QtWidgets.QFrame(self.form_frame)
         self.frame.setGeometry(QtCore.QRect(880, 590, 161, 71))
-        #self.frame.setStyleSheet("background-color: rgb(185, 185, 185);")
-        #self.frame.setFrameShape(QtWidgets.QFrame.WinPanel)
-        #self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        #self.frame.setMidLineWidth(3)
         self.frame.setObjectName("frame")
         
         # 3 AND 3 TECH LOGO
         self.threeand3_label = QtWidgets.QLabel(self.frame)
         self.threeand3_label.setGeometry(QtCore.QRect(0, 0, 171, 71))
-        #self.threeand3_label.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.threeand3_label.setLineWidth(2)
         self.threeand3_label.setText("")
         self.threeand3_label.setPixmap(QtGui.QPixmap("photo/and4.png"))
@@ -841,15 +833,20 @@ class Ui_MainWindow(object):
         self.title_label.setText(_translate("MainWindow", "TIPAZ TRISKELION CHAPTER"))
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Member ID"))
+        
         item = self.tableWidget.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Last Name"))
+        
         item = self.tableWidget.horizontalHeaderItem(2)
         item.setText(_translate("MainWindow", "First Name"))
+        
         item = self.tableWidget.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "AKA"))
-        item = self.tableWidget.horizontalHeaderItem(4)
-        item.setText(_translate("MainWindow", "T-Birth"))
+        
         item = self.tableWidget.horizontalHeaderItem(5)
+        item.setText(_translate("MainWindow", "T-Birth"))
+        
+        item = self.tableWidget.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "Batch Name"))
         item = self.tableWidget.horizontalHeaderItem(6)
         item.setText(_translate("MainWindow", "Current Chapter"))
@@ -885,7 +882,7 @@ class Ui_MainWindow(object):
         self.tbirth_edit.setPlaceholderText(_translate("MainWindow", "MM/DD/YYYY"))
 
         
-        
+        #TAB ORDER
         MainWindow.setTabOrder(self.lname_edit, self.fname_edit)
         MainWindow.setTabOrder(self.fname_edit, self.aka_edit)
         MainWindow.setTabOrder(self.aka_edit, self.batch_edit)
