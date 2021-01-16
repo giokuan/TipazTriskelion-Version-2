@@ -260,6 +260,27 @@ class Ui_MainWindow(object):
         self.edit_btn.setEnabled(True)
         self.clearfield()
 
+    def cellclick_line_edit_disabled(self):
+        self.lname_edit.setEnabled(False)
+        self.fname_edit.setEnabled(False)
+        self.current_edit.setEnabled(False)
+        self.status_edit.setEnabled(False)
+        self.batch_edit.setEnabled(False)
+        self.address_edit.setEnabled(False)
+        self.aka_edit.setEnabled(False)
+        self.root_edit.setEnabled(False)
+        self.tbirth_edit.setEnabled(False)
+
+        self.aka_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
+        self.current_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
+        self.root_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
+        self.lname_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
+        self.batch_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
+        self.fname_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
+        self.tbirth_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
+        self.status_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
+        self.address_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
+
     def clearfield(self):    
         self.lname_edit.clear()
         self.fname_edit.clear()
@@ -308,6 +329,7 @@ class Ui_MainWindow(object):
         self.edit_btn.setEnabled(False)
 
     def cell_click(self,columnCount,rowCount):
+
         
         self.conn=pymysql.connect(host="localhost", user="root", password="noahkuan03", db="myproject")
         cur=self.conn.cursor()
@@ -343,6 +365,14 @@ class Ui_MainWindow(object):
         self.root_edit.setText(root)
         self.status_edit.setText(status)
         self.address_edit.setText(add)
+
+        self.add_btn.setEnabled(True)
+        self.save_btn.setEnabled(False)
+        self.cancel_btn.setEnabled(False)
+        self.refresh_btn.setEnabled(True)
+        self.edit_btn.setEnabled(True)
+        self.cellclick_line_edit_disabled()
+       
 
         with open('photo/pic.png', 'wb') as f:
                 f.write(pic)
