@@ -193,7 +193,13 @@ class Ui_MainWindow(object):
                 self.messageBox("Updated", " Member Data Updated")
                 self.conn.commit()
                 self.loadData()
-                self.cancel()
+                #self.cancel()
+                self.cellclick_line_edit_disabled()
+                self.update_btn.hide()
+                self.save_btn.show()
+                self.edit_btn.setEnabled(True)
+                self.refresh_btn.setEnabled(True)
+                self.cancel_btn.setEnabled(False)
               
 
     def add_new_button(self):
@@ -570,6 +576,10 @@ class Ui_MainWindow(object):
         self.update_btn.setObjectName("save_btn")
         self.update_btn.clicked.connect(self.update)
         self.update_btn.hide()
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("photo/update.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.update_btn.setIcon(icon)
+
         
         #CANCEL BUTTON
         self.cancel_btn = QtWidgets.QPushButton(self.form_frame)
