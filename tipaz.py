@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QTableWidgetItem, QAbstractItemView, QVBoxLayout, QH
 from PyQt5.QtWidgets import QLineEdit
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, QFileDialog
 import sys
+from PIL import Image
 
 
 class Ui_MainWindow(object):
@@ -72,6 +73,9 @@ class Ui_MainWindow(object):
     def insert_data(self):
         
         p = self.addPic_edit.text()
+        im = Image.open(p)
+        im.save(p, quality=95)
+
         with open(p, 'rb') as f:
             m=f.read()
 
@@ -136,6 +140,8 @@ class Ui_MainWindow(object):
     def update(self):
         
         p = self.addPic_edit.text() 
+        im = Image.open(p)
+        im.save(p, quality=95)
         with open(p, 'rb') as f:
             m=f.read()
      
@@ -233,6 +239,7 @@ class Ui_MainWindow(object):
         self.addPic_btn.setEnabled(True)
         self.edit_btn.setEnabled(False)
         self.refresh_btn.setEnabled(False)
+        self.loadData()
 
 
     def cancel(self):
@@ -265,6 +272,7 @@ class Ui_MainWindow(object):
         self.refresh_btn.setEnabled(True)
         self.edit_btn.setEnabled(True)
         self.clearfield()
+        self.loadData()
 
     def cellclick_line_edit_disabled(self):
         self.lname_edit.setEnabled(False)
@@ -276,6 +284,7 @@ class Ui_MainWindow(object):
         self.aka_edit.setEnabled(False)
         self.root_edit.setEnabled(False)
         self.tbirth_edit.setEnabled(False)
+        self.search_edit.clear()
 
         self.aka_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.current_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
@@ -302,7 +311,7 @@ class Ui_MainWindow(object):
         self.search_edit.clear()
         self.addPic_edit.setText("photo/Men.png")
         self.pic_label.setPixmap(QtGui.QPixmap("photo/Men.png"))
-        #self.editbutton.setEnabled(False)
+        self.addPic_btn.setEnabled(False)
 
     def edit(self):
         mem_id = self.id_edit.text()
@@ -409,6 +418,18 @@ class Ui_MainWindow(object):
                   
         except mc.Error as e:
             print ("Error Occured")
+
+
+    def total_res(self):
+        self.conn=pymysql.connect(host="localhost", user="root", password="noahkuan03", db="myproject")
+        cur=self.conn.cursor()
+        cur.execute("SELECT *  FROM projecttau")
+        res = cur.fetchall()
+        #print(len(res))
+        counter = len(res)
+       
+        
+        self.total_res_edit.setText(str(counter))    
               
 
     def setupUi(self, MainWindow):
@@ -503,7 +524,7 @@ class Ui_MainWindow(object):
         
         #ADD PICTURE BUTTON
         self.addPic_btn = QtWidgets.QPushButton(self.form_frame)
-        self.addPic_btn.setGeometry(QtCore.QRect(20, 300, 181, 31))
+        self.addPic_btn.setGeometry(QtCore.QRect(20, 310, 50, 31))
         font = QtGui.QFont()
         font.setBold(True)
         font.setWeight(75)
@@ -522,7 +543,7 @@ class Ui_MainWindow(object):
         
         #SEARCH BUTTON
         self.search_button = QtWidgets.QPushButton(self.form_frame)
-        self.search_button.setGeometry(QtCore.QRect(210, 300, 201, 31))
+        self.search_button.setGeometry(QtCore.QRect(210, 310, 201, 31))
         font = QtGui.QFont()
         font.setBold(True)
         font.setWeight(75)
@@ -530,6 +551,7 @@ class Ui_MainWindow(object):
         self.search_button.setStyleSheet("background-color: rgb(185, 185, 185);")
         self.search_button.setObjectName("search_button")
         self.search_button.clicked.connect(self.search)
+        #self.search_button.clicked.connect(self.clearfield)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("photo/search.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.search_button.setIcon(icon)
@@ -654,7 +676,7 @@ class Ui_MainWindow(object):
 
         #MEMBER ID EDIT TEXTBOX
         self.id_edit = QtWidgets.QLineEdit(self.form_frame)
-        self.id_edit.setGeometry(QtCore.QRect(210, 370, 201, 31))
+        self.id_edit.setGeometry(QtCore.QRect(210, 380, 201, 31))
         self.id_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.id_edit.setCursorPosition(0)
         self.id_edit.setObjectName("id_edit")
@@ -665,7 +687,7 @@ class Ui_MainWindow(object):
         
         #AKA EDIT TEXTBOX
         self.aka_edit = QtWidgets.QLineEdit(self.form_frame)
-        self.aka_edit.setGeometry(QtCore.QRect(430, 370, 201, 31))
+        self.aka_edit.setGeometry(QtCore.QRect(430, 380, 201, 31))
         self.aka_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.aka_edit.setObjectName("aka_edit")
         self.aka_edit.setEnabled(False)
@@ -675,7 +697,7 @@ class Ui_MainWindow(object):
         
         #CURRENT CHAPTER EDIT TEXTBOX
         self.current_edit = QtWidgets.QLineEdit(self.form_frame)
-        self.current_edit.setGeometry(QtCore.QRect(650, 370, 201, 31))
+        self.current_edit.setGeometry(QtCore.QRect(650, 380, 201, 31))
         self.current_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.current_edit.setCursorPosition(0)
         self.current_edit.setObjectName("current_edit")
@@ -686,7 +708,7 @@ class Ui_MainWindow(object):
         
         #ROOT CHAPTER EDIT TEXTBOX
         self.root_edit = QtWidgets.QLineEdit(self.form_frame)
-        self.root_edit.setGeometry(QtCore.QRect(650, 430, 201, 31))
+        self.root_edit.setGeometry(QtCore.QRect(650, 440, 201, 31))
         self.root_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.root_edit.setObjectName("root_edit")
         self.root_edit.setEnabled(False)
@@ -696,7 +718,7 @@ class Ui_MainWindow(object):
         
         #LAST NAME EDIT TEXTBOX
         self.lname_edit = QtWidgets.QLineEdit(self.form_frame)
-        self.lname_edit.setGeometry(QtCore.QRect(210, 430, 201, 31))
+        self.lname_edit.setGeometry(QtCore.QRect(210, 440, 201, 31))
         self.lname_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.lname_edit.setObjectName("lname_edit")
         self.lname_edit.setEnabled(False)
@@ -706,7 +728,7 @@ class Ui_MainWindow(object):
         
         #BATCH NAME EDIT TEXTBOX
         self.batch_edit = QtWidgets.QLineEdit(self.form_frame)
-        self.batch_edit.setGeometry(QtCore.QRect(430, 430, 201, 31))
+        self.batch_edit.setGeometry(QtCore.QRect(430, 440, 201, 31))
         self.batch_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.batch_edit.setObjectName("batch_edit")
         self.batch_edit.setEnabled(False)
@@ -716,7 +738,7 @@ class Ui_MainWindow(object):
         
         #FIRST NAME EDIT TEXTBOX
         self.fname_edit = QtWidgets.QLineEdit(self.form_frame)
-        self.fname_edit.setGeometry(QtCore.QRect(210, 490, 201, 31))
+        self.fname_edit.setGeometry(QtCore.QRect(210, 500, 201, 31))
         self.fname_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.fname_edit.setObjectName("fname_edit")
         self.fname_edit.setEnabled(False)
@@ -726,7 +748,7 @@ class Ui_MainWindow(object):
         
         #T-BIRTH TEXTBOX
         self.tbirth_edit = QtWidgets.QLineEdit(self.form_frame)
-        self.tbirth_edit.setGeometry(QtCore.QRect(430, 490, 201, 31))
+        self.tbirth_edit.setGeometry(QtCore.QRect(430, 500, 201, 31))
         self.tbirth_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.tbirth_edit.setObjectName("tbirth_edit")
         self.tbirth_edit.setEnabled(False)
@@ -736,7 +758,7 @@ class Ui_MainWindow(object):
         
         #STATUS EDIT TEXTBOX
         self.status_edit = QtWidgets.QLineEdit(self.form_frame)
-        self.status_edit.setGeometry(QtCore.QRect(650, 490, 201, 31))
+        self.status_edit.setGeometry(QtCore.QRect(650, 500, 201, 31))
         self.status_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.status_edit.setObjectName("status_edit")
         self.status_edit.setEnabled(False)
@@ -746,7 +768,7 @@ class Ui_MainWindow(object):
         
         #ADDRESS EDIT TEXTBOX
         self.address_edit = QtWidgets.QLineEdit(self.form_frame)
-        self.address_edit.setGeometry(QtCore.QRect(20, 550, 831, 31))
+        self.address_edit.setGeometry(QtCore.QRect(20, 560, 831, 31))
         self.address_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.address_edit.setObjectName("address_edit")
         self.address_edit.setEnabled(False)
@@ -756,7 +778,7 @@ class Ui_MainWindow(object):
     
         #SEARCH EDIT TEXTBOX
         self.search_edit = QtWidgets.QLineEdit(self.form_frame)
-        self.search_edit.setGeometry(QtCore.QRect(430, 300, 201, 31))
+        self.search_edit.setGeometry(QtCore.QRect(430, 310, 201, 31))
         self.search_edit.setTabletTracking(False)
         self.search_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
         self.search_edit.setCursorPosition(0)
@@ -765,9 +787,26 @@ class Ui_MainWindow(object):
         font.setPointSize(12)
         self.search_edit.setFont(font)
 
+        ### TOTAL RESIDENT TEXTBOX
+        self.total_res_edit = QtWidgets.QLineEdit(self.form_frame)
+        self.total_res_edit.setGeometry(QtCore.QRect(100, 310, 100, 31))
+        self.total_res_edit.setTabletTracking(False)
+        self.total_res_edit.setStyleSheet("background-color: rgb(185, 185, 185);color: black")
+        self.total_res_edit.setCursorPosition(0)
+        self.total_res_edit.setObjectName("total_res_edit")
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.total_res_edit.setFont(font)
+
+        self.total_res_label = QtWidgets.QLabel(self.form_frame)
+        self.total_res_label.setGeometry(QtCore.QRect(100, 290, 80, 16))
+        self.total_res_label.setStyleSheet("color: rgb(185, 185, 185);")
+        self.total_res_label.setObjectName("total_res_label")
+        
+
         #PICTURE OF BROD LABEL
         self.pic_label = QtWidgets.QLabel(self.form_frame)
-        self.pic_label.setGeometry(QtCore.QRect(20, 350, 181, 171))
+        self.pic_label.setGeometry(QtCore.QRect(20, 360, 181, 171))
         self.pic_label.setMinimumSize(QtCore.QSize(0, 0))
         self.pic_label.setMaximumSize(QtCore.QSize(1000, 1000))
         self.pic_label.setStyleSheet("background-color: rgb(185, 185, 185);")
@@ -779,61 +818,61 @@ class Ui_MainWindow(object):
 
         #MEMBER ID LABEL
         self.id_label = QtWidgets.QLabel(self.form_frame)
-        self.id_label.setGeometry(QtCore.QRect(210, 350, 71, 16))
+        self.id_label.setGeometry(QtCore.QRect(210, 360, 71, 16))
         self.id_label.setStyleSheet("color: rgb(185, 185, 185);")
         self.id_label.setObjectName("id_label")
         
         #LAST NAME LABEL
         self.lname_label = QtWidgets.QLabel(self.form_frame)
-        self.lname_label.setGeometry(QtCore.QRect(210, 410, 71, 16))
+        self.lname_label.setGeometry(QtCore.QRect(210, 420, 71, 16))
         self.lname_label.setStyleSheet("color: rgb(185, 185, 185);")
         self.lname_label.setObjectName("lname_label")
         
         #FIRST NAME LABEL
         self.fname_label = QtWidgets.QLabel(self.form_frame)
-        self.fname_label.setGeometry(QtCore.QRect(210, 470, 71, 16))
+        self.fname_label.setGeometry(QtCore.QRect(210, 480, 71, 16))
         self.fname_label.setStyleSheet("color: rgb(185, 185, 185);")
         self.fname_label.setObjectName("fname_label")
         
         #ADDRESS LABEL
         self.address_label = QtWidgets.QLabel(self.form_frame)
-        self.address_label.setGeometry(QtCore.QRect(20, 530, 71, 16))
+        self.address_label.setGeometry(QtCore.QRect(20, 540, 71, 16))
         self.address_label.setStyleSheet("color: rgb(185, 185, 185);")
         self.address_label.setObjectName("address_label")
         
         #AKA LABEL
         self.aka_label = QtWidgets.QLabel(self.form_frame)
-        self.aka_label.setGeometry(QtCore.QRect(430, 350, 71, 16))
+        self.aka_label.setGeometry(QtCore.QRect(430, 360, 71, 16))
         self.aka_label.setStyleSheet("color: rgb(185, 185, 185);")
         self.aka_label.setObjectName("aka_label")
         
         #BATCH NAME LABEL
         self.batch_label = QtWidgets.QLabel(self.form_frame)
-        self.batch_label.setGeometry(QtCore.QRect(430, 410, 71, 16))
+        self.batch_label.setGeometry(QtCore.QRect(430, 420, 71, 16))
         self.batch_label.setStyleSheet("color: rgb(185, 185, 185);")
         self.batch_label.setObjectName("batch_label")
        
         #T-BIRTH LABEL
         self.tbirth_label = QtWidgets.QLabel(self.form_frame)
-        self.tbirth_label.setGeometry(QtCore.QRect(430, 470, 71, 16))
+        self.tbirth_label.setGeometry(QtCore.QRect(430, 480, 71, 16))
         self.tbirth_label.setStyleSheet("color: rgb(185, 185, 185);")
         self.tbirth_label.setObjectName("tbirth_label")
         
         #CURRENT CHAPTER LABEL
         self.current_label = QtWidgets.QLabel(self.form_frame)
-        self.current_label.setGeometry(QtCore.QRect(650, 350, 81, 16))
+        self.current_label.setGeometry(QtCore.QRect(650, 360, 81, 16))
         self.current_label.setStyleSheet("color: rgb(185, 185, 185);")
         self.current_label.setObjectName("current_label")
         
         #ROOT CHAPTER LABEL
         self.root_label = QtWidgets.QLabel(self.form_frame)
-        self.root_label.setGeometry(QtCore.QRect(650, 410, 71, 16))
+        self.root_label.setGeometry(QtCore.QRect(650, 420, 71, 16))
         self.root_label.setStyleSheet("color: rgb(185, 185, 185);")
         self.root_label.setObjectName("root_label")
         
         #STATUS LABEL
         self.status_label = QtWidgets.QLabel(self.form_frame)
-        self.status_label.setGeometry(QtCore.QRect(650, 470, 71, 16))
+        self.status_label.setGeometry(QtCore.QRect(650, 480, 71, 16))
         self.status_label.setStyleSheet("color: rgb(185, 185, 185);")
         self.status_label.setObjectName("status_label")
         
@@ -866,6 +905,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        self.total_res()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -901,7 +942,7 @@ class Ui_MainWindow(object):
         #item.setText(_translate("MainWindow", "Photo"))
         
         self.add_btn.setText(_translate("MainWindow", "ADD NEW"))
-        self.addPic_btn.setText(_translate("MainWindow", "ADD PHOTO"))
+        #self.addPic_btn.setText(_translate("MainWindow", "ADD PHOTO"))
         self.save_btn.setText(_translate("MainWindow", "SAVE"))
         self.update_btn.setText(_translate("MainWindow", "UPDATE"))
         self.cancel_btn.setText(_translate("MainWindow", "CANCEL"))
@@ -910,6 +951,7 @@ class Ui_MainWindow(object):
         self.exit_btn.setText(_translate("MainWindow", "EXIT"))
         self.search_button.setText(_translate("MainWindow", "SEARCH"))
         self.id_label.setText(_translate("MainWindow", "Member ID"))
+        self.total_res_label.setText(_translate("MainWindow", "Total Residents"))
         self.lname_label.setText(_translate("MainWindow", "Last Name"))
         self.fname_label.setText(_translate("MainWindow", "First Name"))
         self.address_label.setText(_translate("MainWindow", "Address"))
@@ -920,6 +962,7 @@ class Ui_MainWindow(object):
         self.root_label.setText(_translate("MainWindow", "Root Chapter"))
         self.status_label.setText(_translate("MainWindow", "Status"))
         self.tbirth_edit.setPlaceholderText(_translate("MainWindow", "MM/DD/YYYY"))
+        self.search_edit.setPlaceholderText(_translate("MainWindow", "Enter Last Name"))
 
         
         #TAB ORDER
